@@ -1,4 +1,5 @@
 from collections import defaultdict
+import numpy as np
 
 
 class MarkovText(object):
@@ -37,7 +38,46 @@ class MarkovText(object):
 
 
     def generate(self, seed_term=None, term_count=15):
-
-        # your code here ...
-
-        return None
+        """
+        Generate text using the Markov property.
+        
+        Parameters:
+        - seed_term: optional starting word. If None, a random word is chosen.
+        - term_count: number of words to generate
+        
+        Returns:
+        - A string of generated text
+        """
+        import numpy as np
+        
+        # Build term dictionary if it doesn't exist
+        if self.term_dict is None:
+            self.get_term_dict()
+        
+        # Handle seed term
+        if seed_term is None:
+            # Choose a random starting term from available keys
+            current_term = np.random.choice(list(self.term_dict.keys()))
+        else:
+            # Check if seed term exists in corpus
+            if seed_term not in self.term_dict:
+                raise ValueError(f"Seed term '{seed_term}' not found in corpus")
+            current_term = seed_term
+        
+        # Initialize the generated text with the starting term
+        generated_words = [current_term]
+        
+        # Generate subsequent words
+        for _ in range(term_count - 1):
+            # Check if current term has any following words
+            if current_term not in self.term_dict or len(self.term_dict[current_term]) == 0:
+                # If no following words, break the generation
+                break
+            
+            # Choose next word randomly from the list of possible following words
+            next_word = np.random.choice(self.term_dict[current_term])
+            generated_words.append(next_word)
+            current_term = next_word
+        
+        # Join the words into a single string
+        return ' '.join(generated_words)
