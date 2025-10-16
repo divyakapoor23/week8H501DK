@@ -1,0 +1,15 @@
+name: h501-week-8
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - ipykernel
+    - streamlit
+    - seaborn
+    - pandas
+    - numpy
+    - plotly
+    - spacy
+    - scikit-learn
+    - corextopic
+    - vaderSentiment
